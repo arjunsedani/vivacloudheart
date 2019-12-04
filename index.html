@@ -1,14 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
-  </head>
+    <title>Plastination Model!</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>    
+  </head>  
+  
   <body>
-    <a-scene environment>
-      <a-assets>
-        <a-asset-item id="gltf" src="scene.gltf" ></a-asset-item>
-      </a-assets>
-      <a-entity gltf-model="#gltf" scale="0.1 0.1 0.1" position="0 1 -1"></a-entity>
-    </a-scene>
+ <script>
+  AFRAME.registerComponent('rotate-on-click', {
+    
+    schema: {
+      rotation: {default: (0,90,0)},
+      _animate: {type: 'boolean', default: false}
+    },
+
+    
+    init: function () {
+    
+    },
+    
+    update: function() {
+    
+      var el = this.el;  // the model
+      var defaultRotation = el.getAttribute('rotation');
+      var button = document.querySelector("#rotateBtn"); //button object      
+      var front = false;
+      var rot = {x:0, y:0, z:0 }; 
+      var animate = this.data._animate;
+            
+
+      button.addEventListener('click', function () {
+
+
+      if(!animate){
+        // rotates element without animation         
+        if (front){
+        rot= {x:0, y:0, z:0};
+      } else {
+        rot= {x:0, y:180, z:0};  
+      }; 
+        
+        el.setAttribute('rotation', rot);
+        front=!front;
+      } else {
+
+       el.emit('rotateModel'); //triggers animation component already on model
+      }  
+      });      
+    }
+    
+  });
+</script>
+   
+    <a-scene antialias="true" background="color: #555555">
+  <a-assets>
+    <a-asset-item id="head" src="heart2.glb"></a-asset-item>
+    
+        
+  </a-assets>
+      <a-entity light="type: ambient; intensity:2.8; color: #C8C8FF"></a-entity>
+       <a-entity light="type: spot; intensity:.3; " position="1.1 2.7 1"></a-entity>
+<a-entity line="start: 0, 1, 0; end: 2 0 -5; color: red"
+          line__2="start: -2, 4, 5; end: 0 4 -3; color: green"></a-entity>
+       
+  <a-entity gltf-model="#head" scale="0.1 0.1 0.1" position="0 1 -1" rotation="0 0 0" rotate-on-click="_animate: true;" >
+    
+       <a-animation 
+                    begin="rotateModel"
+                    attribute="rotation"
+                    dur="1000"
+                    direction="alternate"
+                    to="0 180 0"
+               ></a-animation>
+    </a-entity>
+    <a-plane id="rotateBtn" class="clickable" color="#CCC" height=".25" width=".75" position="1 1.5 -1.2">
+      <a-entity text="align: center; anchor: center; value: ROTATE; color: black; wrap-count: 10;"></a-entity>
+    </a-plane>  
+<!--     <a-entity environment="preset: starry; lighting: "></a-entity> -->
+    <a-entity  id="controller" laser-controls custom-controls raycaster="objects: .clickable"></a-entity>
+      <a-camera>
+        <a-cursor raycaster="objects: .clickable"></a-cursor>
+      </a-camera>
+
+</a-scene>
+
   </body>
 </html>
+

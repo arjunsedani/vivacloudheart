@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>SFD Aframe</title>
-  <meta name="description" content="Hello, WebVR! • A-Frame">
- <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
-</head>
-<body>
-	<a-scene>
-		<a-assets>
-		  <a-asset-item id="tree" src="./heart/scene.gltf"></a-asset-item>
-		</a-assets>
-
-		<a-entity gltf-model="#tree"  scale="0.1 0.1 0.1" position="0 1 -1"></a-entity>
-	  </a-scene>
-</body>
+  <head>
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene environment>
+      <a-assets>
+        <a-asset-item id="gltf" src="scene.gltf" ></a-asset-item>
+      </a-assets>
+      <a-entity gltf-model="#gltf" scale="0.1 0.1 0.1" position="0 1 -1"></a-entity>
+    </a-scene>
+  </body>
 </html>
